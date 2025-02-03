@@ -4,7 +4,7 @@ from app.services.audio_processing import extract_audio
 from app.services.image_processing import classify_and_remove_duplicates, extract_screenshots
 from app.services.openai_integration import get_image_descriptions
 from app.utils.file_utils import create_directories, save_json, delete_folder, get_next_id
-from app.models.models import whisper_model
+from app.models.models import whisper_transcribe
 from app.utils.vectordb import create_vector_db
 from app.utils.similarity_search import perform_similarity_search
 import os
@@ -54,15 +54,15 @@ async def processing(
         extract_audio(video_path, audio_path)
         extract_screenshots(video_path, screenshots_path, fps=0.2, id=id)
 
+        # Transcribe audio
+        transcription = await whisper_transcribe(audio_path)
+        
         # Classify and remove duplicates
         classify_and_remove_duplicates(screenshots_path)
         
         # Generate image descriptions
         descriptions = await get_image_descriptions(screenshots_path, id)
 
-        # Transcribe audio
-        transcription = whisper_model.transcribe(audio_path)
-        
         # Save results
         result = {
             "id": id,
@@ -75,7 +75,7 @@ async def processing(
             "host": host,
             "attendees": attendees,
             "otherinfo": otherInfo,
-            "transcription": transcription["text"],
+            "transcription": transcription,
             "descriptions": descriptions,
         }
         result_path = os.path.join(data_dir, id, "result.json")
@@ -126,8 +126,9 @@ class SimilaritySearchRequest(BaseModel):
 @router.post("/similarity_search")
 async def similarity_search(request: SimilaritySearchRequest):
     try:
+        # print(request.query, request.id)
         results = perform_similarity_search(request.query, request.id)
-        # print(results)
+        # print(results, "after call")
         return JSONResponse(content={"results": [res.page_content for res in results]}, status_code=200)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

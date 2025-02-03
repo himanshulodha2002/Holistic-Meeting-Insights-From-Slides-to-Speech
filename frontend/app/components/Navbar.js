@@ -32,7 +32,7 @@ function Navbar() {
         </button>
       </div>
       <div
-        className="items-center p-5 justify-center hidden w-full md:flex md:w-auto md:order-1"
+        className="items-center pt-6 justify-center hidden w-full md:flex md:w-auto md:order-1"
         id="navbar-sticky"
       >
         <ul className="flex flex-col p-4 md:p-0 mt-4 font-semibold rounded-3xl  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 bg-gray-100 bg-opacity-5">

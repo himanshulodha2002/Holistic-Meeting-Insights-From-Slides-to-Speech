@@ -7,6 +7,7 @@ def perform_similarity_search(query: str, id: str):
     load_dotenv()
 
     token = os.environ["GITHUB_TOKEN_1"]
+    # print(token, query, str)
     endpoint = "https://models.inference.ai.azure.com"
     model_name = "text-embedding-3-large"
     base_path = os.path.dirname(__file__)

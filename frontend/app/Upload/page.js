@@ -60,64 +60,71 @@ function HomePage() {
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-gray-100 bg-opacity-5 p-6 rounded-lg shadow-md my-10">
-      <h1 className="text-xl font-bold text-center text-white mb-4">
+    <div className="max-w-[80%] mx-auto bg-gray-100 bg-opacity-5 p-6 rounded-lg shadow-md my-10">
+      <h1 className="text-4xl font-bold text-center text-white mb-4">
         Submit Your Details
       </h1>
 
-      <form onSubmit={handleSubmit}>
-        {/* Video Upload */}
-        <div className="mb-4">
-          <label className="block text-gray-100">Upload Video</label>
-          <div className="bg-gray-100 bg-opacity-15 w-full h-64 mt-1 p-2 border-slate-700 rounded flex items-center justify-center relative">
-            <input
-              type="file"
-              name="video"
-              accept="video/*"
-              onChange={handleChange}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              required
-            />
-            <button
-              type="button"
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-            >
-              Choose File
-            </button>
+      <form onSubmit={handleSubmit} className="flex flex-wrap">
+        {/* Left Side: Video Upload and Submit Button */}
+        <div className="w-full md:w-1/2 pr-2 ">
+          <div className="mb-4 sticky top-20 ">
+            <div>
+              <label className="block text-gray-100 text-lg ml-4">
+                Upload Video
+              </label>
+              <div className="bg-gray-100 bg-opacity-15 w-full h-64 mt-1 p-2 border-slate-700 rounded flex items-center justify-center relative rounded-2xl">
+                <input
+                  type="file"
+                  name="video"
+                  accept="video/*"
+                  onChange={handleChange}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  required
+                />
+                <button
+                  type="button"
+                  className="shadow-2xl inline-flex items-center px-5 py-4 text-base font-medium text-center text-white bg-gray-800 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-800 transform transition-transform duration-200 hover:translate-y-[-2px]"
+                >
+                  Choose File
+                </button>
+              </div>
+            </div>
           </div>
+          <button
+            type="submit"
+            className="shadow-2xl inline-flex items-center px-5 py-4 text-base font-medium text-center text-white bg-gray-800 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-900 dark:hover:bg-gray-900 dark:focus:ring-gray-800 transform transition-transform duration-200 hover:translate-y-[-2px] w-[80%] sticky top-[25rem]"
+          >
+            Submit
+          </button>
         </div>
 
-        {/* Form Fields */}
-        {[
-          { label: "Name", name: "name", type: "text" },
-          { label: "Email", name: "email", type: "email" },
-          { label: "Meeting Name", name: "meetingName", type: "text" },
-          { label: "Date & Time", name: "dateTime", type: "datetime-local" },
-          { label: "Topic", name: "topic", type: "text" },
-          { label: "Duration", name: "duration", type: "text" },
-          { label: "Host", name: "host", type: "text" },
-          { label: "Attendees", name: "attendees", type: "text" },
-          { label: "Other Info", name: "otherInfo", type: "text" },
-        ].map(({ label, name, type }) => (
-          <div className="mb-4" key={name}>
-            <label className="block text-gray-100">{label}</label>
-            <input
-              type={type}
-              name={name}
-              value={formData[name]}
-              onChange={handleChange}
-              className="w-full mt-1 p-2 border-slate-700 rounded bg-gray-100 bg-opacity-15"
-              required
-            />
-          </div>
-        ))}
-
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-full mt-4"
-        >
-          Submit
-        </button>
+        {/* Right Side: Form Fields */}
+        <div className="w-[90%] md:w-1/2 pl-2">
+          {[
+            { label: "Name", name: "name", type: "text" },
+            { label: "Email", name: "email", type: "email" },
+            { label: "Meeting Name", name: "meetingName", type: "text" },
+            { label: "Date & Time", name: "dateTime", type: "datetime-local" },
+            { label: "Topic", name: "topic", type: "text" },
+            { label: "Duration", name: "duration", type: "text" },
+            { label: "Host", name: "host", type: "text" },
+            { label: "Attendees", name: "attendees", type: "text" },
+            { label: "Other Info", name: "otherInfo", type: "text" },
+          ].map(({ label, name, type }) => (
+            <div className="p-4" key={name}>
+              <label className="block text-gray-100 mb-2 ">{label}</label>
+              <input
+                type={type}
+                name={name}
+                value={formData[name]}
+                onChange={handleChange}
+                className="w-full mt-1 p-2 border-slate-700 rounded bg-gray-100 bg-opacity-15 rounded-xl"
+                required
+              />
+            </div>
+          ))}
+        </div>
       </form>
     </div>
   );

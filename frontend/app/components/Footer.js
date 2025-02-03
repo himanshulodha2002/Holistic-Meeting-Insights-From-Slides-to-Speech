@@ -1,11 +1,11 @@
-import React from "react";
 import Link from "next/link";
+import React from "react";
 
 function Footer() {
   return (
     <>
-      <footer className="text-white body-font inset-x-0 bottom-0 bg-opacity-5 bg-gray-100">
-        <div className="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+      <footer className="text-white body-font inset-x-0 bottom-0 bg-opacity-0 bg-gray-100">
+        <div className="container px-5 py-4 mx-auto flex items-center sm:flex-row flex-col">
           <Link
             href="/"
             className="flex title-font font-medium items-center md:justify-start justify-center text-white"

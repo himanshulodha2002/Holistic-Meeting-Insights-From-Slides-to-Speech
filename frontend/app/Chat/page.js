@@ -72,9 +72,9 @@ function Chat() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-2rem)] m-4 bg-gradient-to-r from-zinc-800 to-red-950">
+    <div className="flex h-[calc(100vh-10rem)] mt-4 mx-10 bg-gradient-to-r from-gray-800 to-gray-950">
       {/* Meetings Selection */}
-      <div className="w-1/4 bg-[#1a1b26] p-4 shadow-lg rounded-xl mr-4">
+      <div className="w-1/4 bg-[#1a1b26] p-4 shadow-2xl rounded-xl mr-10">
         <h2 className="text-lg font-bold mb-3 text-[#a9b1d6]">Meetings</h2>
         <ul className="space-y-2">
           {meetings.map((meeting, index) => (
@@ -94,7 +94,7 @@ function Chat() {
       </div>
 
       {/* Chat Container */}
-      <div className="flex-1 bg-[#1a1b26] p-4 shadow-lg rounded-xl flex flex-col">
+      <div className="flex-1 bg-[#1a1b26] p-4 shadow-2xl rounded-xl flex flex-col">
         <h2 className="text-lg font-bold mb-3 text-[#a9b1d6]">
           Chat Assistant
         </h2>
