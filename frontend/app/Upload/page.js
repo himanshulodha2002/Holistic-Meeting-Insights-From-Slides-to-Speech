@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 function HomePage() {
   const [formData, setFormData] = useState({
@@ -15,16 +15,30 @@ function HomePage() {
     otherInfo: "",
   });
 
+  const [selectedFileName, setSelectedFileName] = useState(""); // State to store selected file name
+  const [isUploading, setIsUploading] = useState(false); // Track upload status
+  const fileInputRef = useRef(null);
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: files ? files[0] : value,
-    });
+    if (files) {
+      setFormData({
+        ...formData,
+        [name]: files[0],
+      });
+      setSelectedFileName(files[0]?.name || ""); // Update file name state
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsUploading(true); // Start showing "Uploading..."
+
     const formDataToSend = new FormData();
     for (const key in formData) {
       formDataToSend.append(key, formData[key]);
@@ -49,7 +63,8 @@ function HomePage() {
           host: "",
           attendees: "",
           otherInfo: "",
-        }); // Reset form
+        });
+        setSelectedFileName(""); // Reset file name after submission
       } else {
         const error = await response.json();
         alert(`Error: ${error.detail}`);
@@ -57,6 +72,8 @@ function HomePage() {
     } catch (err) {
       alert("Something went wrong. Please try again.");
     }
+
+    setIsUploading(false); // Reset button text after submission
   };
 
   return (
@@ -75,27 +92,56 @@ function HomePage() {
               </label>
               <div className="bg-gray-100 bg-opacity-15 w-full h-64 mt-1 p-2 border-slate-700 rounded flex items-center justify-center relative rounded-2xl">
                 <input
+                  ref={fileInputRef}
                   type="file"
                   name="video"
                   accept="video/*"
                   onChange={handleChange}
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  className="hidden"
                   required
                 />
                 <button
                   type="button"
+                  onClick={() => fileInputRef.current.click()}
                   className="shadow-2xl inline-flex items-center px-5 py-4 text-base font-medium text-center text-white bg-gray-800 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-800 transform transition-transform duration-200 hover:translate-y-[-2px]"
                 >
-                  Choose File
+                  {selectedFileName ? selectedFileName : "Choose File"}
                 </button>
               </div>
             </div>
           </div>
           <button
             type="submit"
-            className="shadow-2xl inline-flex items-center px-5 py-4 text-base font-medium text-center text-white bg-gray-800 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-900 dark:hover:bg-gray-900 dark:focus:ring-gray-800 transform transition-transform duration-200 hover:translate-y-[-2px] w-[80%] sticky top-[25rem]"
+            disabled={isUploading} // Disable button while uploading
+            className="shadow-2xl inline-flex justify-center items-center w-full px-5 py-4 text-base font-medium text-center text-white bg-gray-800 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-900 dark:hover:bg-gray-900 dark:focus:ring-gray-800 transform transition-transform duration-200 hover:translate-y-[-2px] w-[80%] sticky top-[25rem]"
           >
-            Submit
+            {isUploading ? (
+              <>
+                <svg
+                  className="animate-spin h-5 w-5 mr-2 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16z"
+                  ></path>
+                </svg>
+                Uploading...
+              </>
+            ) : (
+              "Submit"
+            )}
           </button>
         </div>
 
@@ -113,7 +159,7 @@ function HomePage() {
             { label: "Other Info", name: "otherInfo", type: "text" },
           ].map(({ label, name, type }) => (
             <div className="p-4" key={name}>
-              <label className="block text-gray-100 mb-2 ">{label}</label>
+              <label className="block text-gray-100 mb-2">{label}</label>
               <input
                 type={type}
                 name={name}

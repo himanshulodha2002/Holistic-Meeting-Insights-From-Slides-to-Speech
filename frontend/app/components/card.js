@@ -24,7 +24,7 @@ export function ThreeDCardDemo() {
             <CardItem
               translateZ={20}
               as="button"
-              className="shadow-2xl inline-flex items-center px-5 py-4 text-base font-medium text-center text-white bg-gray-800 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 fo dark:bg-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800 transform transition-transform duration-200 hover:translate-y-[-2px]"
+              className="shadow-2xl inline-flex items-center px-5 py-4 text-base font-medium text-center text-white bg-gray-800 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 fo dark:bg-gray-700 dark:hover:bg-blue-800 dark:focus:ring-gray-800 transform transition-transform duration-200 hover:translate-y-[-2px]"
             >
               Get Started
             </CardItem>
